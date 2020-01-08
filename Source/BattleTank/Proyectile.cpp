@@ -23,7 +23,7 @@ void AProyectile::BeginPlay()
 	Super::BeginPlay();
 	
 }
-
+/*lolololo*/
 // Called every frame
 void AProyectile::Tick(float DeltaTime)
 {
