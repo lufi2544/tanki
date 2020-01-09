@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Epic Games (Employee : Juan Esteban Rayo Contreras
 
 #include "TankTrack.h"
 #include "TankMovementComponent.h"
