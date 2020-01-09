@@ -35,4 +35,7 @@ private:
 
 	UShootMovementcomponent* ShootMovementComponent = nullptr;
 
+
+	void GetPlayerName();
+
 };

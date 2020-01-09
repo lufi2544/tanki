@@ -42,3 +42,12 @@ void AProyectile::FireProyectile(float Speed)
 
 	}
 
+
+void AProyectile::GetPlayerName() 
+	{
+	
+	GetOwner()->GetName();
+
+
+}
+
