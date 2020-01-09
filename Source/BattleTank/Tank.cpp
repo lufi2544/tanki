@@ -1,4 +1,4 @@
-// Epic Games (Employee : Juan Esteban Rayo Contreras
+
 
 #include "TankTrack.h"
 #include "TankMovementComponent.h"
