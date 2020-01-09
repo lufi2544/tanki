@@ -16,10 +16,9 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
           FVector CrossProSides = FVector::CrossProduct(TankForwardVector,AIForwardIntention);
 
-          IntendMoveSides(CrossProSides.Z);
+          IntendMoveSides(CrossProSides.Z); // The Only parameter that changes is the Z component so: (1,0,0) X (0,1,0) = (0,0,1) we use the Z component.
 
 
-          UE_LOG(LogTemp,Warning,TEXT("%s :    Forward: %f   Sides: %f"),*GetOwner()->GetName(),DotVectorAngle,CrossProSides.Z);
 
          IntendMoveForward(DotVectorAngle);
 
