@@ -35,7 +35,7 @@ private:
 
 	UShootMovementcomponent* ShootMovementComponent = nullptr;
 
-	//This Methot will give the Player Name of the local Server.
+	
 	void GetPlayerName();
 
 };
