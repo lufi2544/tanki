@@ -23,7 +23,17 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 
 	 virtual void BeginPlay() override;
 	 virtual void Tick(float DeltaSeconds) override ;
-	 ATank* GetControlledTank( ) const;
+
+	 UFUNCTION(BlueprintPure, Category = "SetUp")
+		 ATank* GetControlledTank() const;
+
+	
+
+
+	protected:
+
+	
+
 
 		
 
