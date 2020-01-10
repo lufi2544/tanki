@@ -12,7 +12,9 @@ ATank::ATank()
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	TankAiminngComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+		//TODO eliminate the subobject and test in a way that we make a UPROPERTY from a UAimingComponent and BlueprintReadOnly, then use that variable for the UI.
+
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 
 }
 
@@ -46,33 +48,15 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::AimAt(FVector ObjectVector) const
 {
 
-	TankAiminngComponent->AimAt(ObjectVector, LaunchSpeed);
+	TankAimingComponent->AimAt(ObjectVector, LaunchSpeed);
 
 }
 
-void ATank::SetBarrelReference(UTankBarrel* BarrellToSet)
-{
-
-	TankAiminngComponent->SetBarrelReference(BarrellToSet);
-
-	//Local Reference to Barrel
-	Barrel = BarrellToSet;
-
-}
-
-void ATank::SetTurretReference(UTankTurret* TankTurret) {
-
-	TankAiminngComponent->SetTurretReference(TankTurret);
-
-
-}
 
 void ATank::Fire()
 {
 
 	bool IsReloaded = (FPlatformTime::Seconds() - LastTimeReloaded > ReloadTimeSeconds);
-
-
 
 
 	if (Barrel && IsReloaded) {
@@ -97,9 +81,13 @@ void ATank::Fire()
 
 	}
 
-
 }
 
-UTankAimingComponent* ATank::GetTankAimingComponent()
-{
-	return TankAiminngComponent;}
+
+
+UTankAimingComponent* ATank::GetAimingComponent() { return TankAimingComponent; }
+
+
+
+
+

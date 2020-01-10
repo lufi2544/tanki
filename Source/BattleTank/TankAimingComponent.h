@@ -38,10 +38,14 @@ public:
 	void MoveBarrelTowards(FVector AimDirection);
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	UFUNCTION(BlueprintCallable,Category = " Set Up")
+	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
 protected:
 
 	UPROPERTY(BlueprintReadOnly)
-	EFiringState FiringState = EFiringState::Locked;
+	EFiringState FiringState = EFiringState::Reloading;
+	
 
 
 };
