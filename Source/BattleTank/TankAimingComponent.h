@@ -10,8 +10,8 @@
 #include "TankAimingComponent.generated.h"
 
 UENUM()
-enum class EFiringState : uint8 
-	{
+enum class EFiringState : uint8
+{
 	Reloading,
 	Moving,
 	Locked
@@ -37,15 +37,17 @@ public:
 	void AimAt(FVector AimLocation, float LaunchSpeed);
 	void MoveBarrelTowards(FVector AimDirection);
 	void SetTurretReference(UTankTurret* TurretToSet);
+	UTankBarrel* GetBarrelReference();
 
-	UFUNCTION(BlueprintCallable,Category = " Set Up")
-	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+	UFUNCTION(BlueprintCallable, Category = " Set Up")
+		void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
 
 protected:
 
 	UPROPERTY(BlueprintReadOnly)
-	EFiringState FiringState = EFiringState::Reloading;
-	
+		EFiringState FiringState = EFiringState::Reloading;
+
 
 
 };

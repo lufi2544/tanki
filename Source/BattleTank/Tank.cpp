@@ -12,7 +12,7 @@ ATank::ATank()
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-		//TODO eliminate the subobject and test in a way that we make a UPROPERTY from a UAimingComponent and BlueprintReadOnly, then use that variable for the UI.
+	//TODO eliminate the subobject and test in a way that we make a UPROPERTY from a UAimingComponent and BlueprintReadOnly, then use that variable for the UI.
 
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 
@@ -24,7 +24,7 @@ void ATank::BeginPlay()
 	Super::BeginPlay();
 
 
-
+	Barrel = TankAimingComponent->GetBarrelReference();
 
 
 }
@@ -86,7 +86,6 @@ void ATank::Fire()
 
 
 UTankAimingComponent* ATank::GetAimingComponent() { return TankAimingComponent; }
-
 
 
 
