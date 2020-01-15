@@ -26,7 +26,7 @@ protected:
 	
 
 public:	
-	// Called every frame
+	
 	virtual void Tick(float DeltaTime) override;
 
 	void FireProyectile(float Speed);
@@ -34,5 +34,8 @@ public:
 private:
 
 	UShootMovementcomponent* ShootMovementComponent = nullptr;
+
+	//Added again
+	void GetPlayerName();
 
 };

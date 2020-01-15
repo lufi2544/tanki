@@ -18,112 +18,126 @@ UTankAimingComponent::UTankAimingComponent()
 
 
 void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
+{
+
+	if (ensure(!Barrel)) { return; }
+
+	FVector out_LaunchVelocity;
+	TArray<AActor*>ActorstoIgnore;
+	ActorstoIgnore.Add(GetOwner());
+
+	bool SuggestProyectileVelocity = UGameplayStatics::SuggestProjectileVelocity(
+
+		this,
+		out_LaunchVelocity,
+		Barrel->GetSocketLocation(FName("Proyectile")),
+		AimLocation,
+		LaunchSpeed,
+		false,
+		0,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		FCollisionResponseParams::DefaultResponseParam
+
+	);
+
+
+	if (SuggestProyectileVelocity)
 	{
+		auto AimDirection = out_LaunchVelocity.GetSafeNormal();
 
-		if(!Barrel){return;}
-
-		FVector out_LaunchVelocity;
-		TArray<AActor*>ActorstoIgnore;
-		ActorstoIgnore.Add(GetOwner());
-
-		bool SuggestProyectileVelocity = UGameplayStatics::SuggestProjectileVelocity(
- 
-				this,
-				out_LaunchVelocity,
-				Barrel->GetSocketLocation(FName("Proyectile")),
-				AimLocation,
-				LaunchSpeed,
-				false,
-				0,
-				0,
-				ESuggestProjVelocityTraceOption::DoNotTrace,
-				FCollisionResponseParams::DefaultResponseParam
-				
-		);
-		
-
-		if(SuggestProyectileVelocity)
-			{
-					auto AimDirection = out_LaunchVelocity.GetSafeNormal();
-
-					MoveBarrelTowards(AimDirection);
-
-			}else
-			{
-				UE_LOG(LogTemp,Warning,TEXT("False"));
-			}
-			
-		
-		
-
-
-		
-
-		
+		MoveBarrelTowards(AimDirection);
 
 	}
-	void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
-		{
-			if(!BarrelToSet){
-
-				UE_LOG(LogTemp,Error,TEXT("Barrel Not Found"));
-			}else
-			{
-				Barrel=BarrelToSet;
-			}
-			
-		}
-
-
-	void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
-		{
-		if (!TurretToSet)
-		{
-			UE_LOG(LogTemp,Warning,TEXT("Turret Not Found"));
-		}else
-		{
-			Turret = TurretToSet;
-		}
-		
-		
-			
-
-
-		}
-
-
-	void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
-		{
-
-				auto TankName = GetOwner()->GetName();
-				auto BarrelCurrentRotation = Barrel->GetForwardVector().Rotation();
-				auto AimDirectionRotation = AimDirection.Rotation();
-				auto DeltaRotator = AimDirectionRotation - BarrelCurrentRotation ;
-
-
-			//Move th ebarrel the roght amount this frame
-			if (Barrel){
-			Barrel->Elevate(DeltaRotator.GetNormalized().Pitch);
-			}
-			else
-			{
-				UE_LOG(LogTemp,Error,TEXT("No Barrel Reference Found"));
-			}
-
-			if(Turret){
-			Turret->Rotatate(DeltaRotator.GetNormalized().Yaw);
-
-			}else
-			{
-				UE_LOG(LogTemp,Error,TEXT("No Turret Reference Found"));
-			}
-			
-
-
-			//Given a max elevation speed and the frame time
-
-			 
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("False"));
+	}
 
 
 
-		}
+
+
+
+
+
+
+}
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
+{
+	if (ensure(!BarrelToSet)) {
+
+		UE_LOG(LogTemp, Error, TEXT("Barrel Not Found"));
+	}
+	else
+	{
+		Barrel = BarrelToSet;
+	}
+
+}
+
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	if (ensure(!TurretToSet))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Turret Not Found"));
+	}
+	else
+	{
+		Turret = TurretToSet;
+	}
+}
+
+
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+{
+
+	auto TankName = GetOwner()->GetName();
+	auto BarrelCurrentRotation = Barrel->GetForwardVector().Rotation();
+	auto AimDirectionRotation = AimDirection.Rotation();
+	auto DeltaRotator = AimDirectionRotation - BarrelCurrentRotation;
+
+
+	//Move th ebarrel the roght amount this frame
+	if (Barrel) {
+		Barrel->Elevate(DeltaRotator.GetNormalized().Pitch);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Barrel Reference Found"));
+	}
+
+	if (Turret) {
+		Turret->Rotatate(DeltaRotator.GetNormalized().Yaw);
+
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No Turret Reference Found"));
+	}
+
+
+
+	//Given a max elevation speed and the frame time
+
+}
+
+void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
+{
+	if(ensure((!BarrelToSet) || (!TurretToSet)))
+	{
+
+		UE_LOG(LogTemp, Error, TEXT("There is no barrel or turret reference found!!"));
+
+	}
+	else
+	{
+		Barrel = BarrelToSet;
+		Turret = TurretToSet;
+
+	}
+}
+
+
+UTankBarrel* UTankAimingComponent::GetBarrelReference() { return Barrel; }

@@ -22,20 +22,16 @@ class BATTLETANK_API ATank : public APawn
 
 
 
-	
 
-public:	
 
-	//Sets up The Barrel Reference for the Tank
-	UFUNCTION(Blueprintcallable,Category = SetUp)
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
+public:
 
-	UFUNCTION(Blueprintcallable , Category= Controls )
+
+
+	UFUNCTION(Blueprintcallable, Category = Controls)
 		void Fire();
 
-	//Sets up The Turret Reference for the Tank
-	UFUNCTION(BlueprintCallable, Category = SetUp)
-	void SetTurretReference(UTankTurret* TankTurret);
+
 
 	void AimAt(FVector ObjectVector)const;
 
@@ -46,33 +42,35 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UTankAimingComponent* TankAimingComponent = nullptr;
 
-	UTankAimingComponent* TankAiminngComponent = nullptr;
-
-	
 private:
 
-		ATank();
-		
-		UPROPERTY(EditAnywhere, Category= Firing)
+	ATank();
+
+	UPROPERTY(EditAnywhere, Category = Firing)
 		float LaunchSpeed = 10000;
 
-		UPROPERTY(EditDefaultsOnly, Category= Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float ReloadTimeSeconds = 3;
 
-		UPROPERTY(EditDefaultsOnly, Category = SetUp)
+	UPROPERTY(EditDefaultsOnly, Category = SetUp)
 		TSubclassOf<AProyectile> ProyectileBlueprint;
 
 
-	    //Local Barrel Reference for spawning proyectile
-		UTankBarrel* Barrel = nullptr;
+	//Local Barrel Reference for spawning proyectile
+	UTankBarrel* Barrel = nullptr;
 
-		
 
-		double LastTimeReloaded = 0;
+
+	double LastTimeReloaded = 0;
+
+
+
 
 };

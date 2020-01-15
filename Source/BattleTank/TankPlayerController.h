@@ -9,9 +9,10 @@
 #include "TankPlayerController.generated.h"
 
 class ATank;
+class UTankAimingComponent;
 
 /**
- * 
+ *Responsible for helping yhe player aim.
  */
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
@@ -19,31 +20,44 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 
 
-	public:
+public:
 
-	 virtual void BeginPlay() override;
-	 virtual void Tick(float DeltaSeconds) override ;
-	 ATank* GetControlledTank( ) const;
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 
-		
+	UFUNCTION(BlueprintPure, Category = "SetUp")
+		ATank* GetControlledTank() const;
 
 
-	 private:
 
-	 void AimTowardsCrosshair( );
-	 bool GetSightRayHitLocation( ) const;
-	 bool GetIfCrossHairTurretImpact(FVector& out_HitLocation) const;
-	 bool GetLookDirection(FVector2D CrossHairScreenLocation, FVector& LookDirection) const;
-	 bool GetLookVectorHitResult(FVector LookDirection,FHitResult& out_HitLocation) const;
-	 FVector GetTurretReach(FVector	StartLocation, FVector LookDirection) const;
-	 
 
-	 	UPROPERTY(EditAnywhere)
+protected:
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "SetUp")
+		void FoundAimingComponent(UTankAimingComponent* AimCompRef);
+
+
+
+
+
+
+
+private:
+
+	void AimTowardsCrosshair();
+	bool GetSightRayHitLocation() const;
+	bool GetIfCrossHairTurretImpact(FVector& out_HitLocation) const;
+	bool GetLookDirection(FVector2D CrossHairScreenLocation, FVector& LookDirection) const;
+	bool GetLookVectorHitResult(FVector LookDirection, FHitResult& out_HitLocation) const;
+	FVector GetTurretReach(FVector	StartLocation, FVector LookDirection) const;
+
+
+	UPROPERTY(EditAnywhere)
 		float CrossHairXLocation = 0.5;
 
-		UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere)
 		float CrossHairYLocation = 0.425;
 
-		UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere)
 		float ReachLocation = 100000000;
 };

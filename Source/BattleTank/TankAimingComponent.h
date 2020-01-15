@@ -9,30 +9,46 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
-
+UENUM()
+enum class EFiringState : uint8
+{
+	Reloading,
+	Moving,
+	Locked
+};
 
 class UTankBarrel; //Forward declaration
 class UTankTurret;
 
 //Holds Barrel´s properties and Elevate Method
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
 private:
-		UTankBarrel* Barrel = nullptr;
-		UTankTurret* Turret = nullptr;
+	UTankBarrel* Barrel = nullptr;
+	UTankTurret* Turret = nullptr;
 
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 	void AimAt(FVector AimLocation, float LaunchSpeed);
-	void MoveBarrelTowards(FVector AimDirection );
+	void MoveBarrelTowards(FVector AimDirection);
 	void SetTurretReference(UTankTurret* TurretToSet);
+	UTankBarrel* GetBarrelReference();
+
+	UFUNCTION(BlueprintCallable, Category = " Set Up")
+		void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
+
+protected:
+
+	/* If the AimingComponent on the Tank is found then the event is executed*/
+	UPROPERTY(BlueprintReadOnly,EditAnywhere, Category ="Aiming")
+		EFiringState FiringState = EFiringState::Moving;
 
 
 
-		
 };
