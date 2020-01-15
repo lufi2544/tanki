@@ -1,3 +1,6 @@
+
+
+#include "TankAimingComponent.h"
 #include "BattleTank.h"
 #include "Engine/World.h"
 #include "CollisionQueryParams.h"
@@ -13,6 +16,7 @@ void ATankPlayerController::BeginPlay()
 
     Super::BeginPlay();
 
+    auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
     auto Tank = GetControlledTank();
 
     if (!Tank)
@@ -22,6 +26,20 @@ void ATankPlayerController::BeginPlay()
     }
     else {
         UE_LOG(LogTemp, Warning, TEXT("%s"), *Tank->GetName());
+    }
+
+
+
+    if (!AimingComponent) 
+        {
+    UE_LOG(LogTemp,Warning,TEXT("Player Controller class didn´t find a Aiming Component"))
+    
+    
+    }
+    else
+    {
+        FoundAimingComponent(AimingComponent);
+
     }
 
 

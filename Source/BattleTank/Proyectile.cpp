@@ -38,8 +38,6 @@ void AProyectile::FireProyectile(float Speed)
 
 		ShootMovementComponent->Activate();
 
-
-
 	}
 
 
@@ -47,7 +45,6 @@ void AProyectile::GetPlayerName()
 	{
 	
 	GetOwner()->GetName();
-
 
 }
 

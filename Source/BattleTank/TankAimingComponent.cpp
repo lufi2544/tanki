@@ -20,7 +20,7 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 {
 
-	if (!Barrel) { return; }
+	if (ensure(!Barrel)) { return; }
 
 	FVector out_LaunchVelocity;
 	TArray<AActor*>ActorstoIgnore;
@@ -65,7 +65,7 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 }
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
-	if (!BarrelToSet) {
+	if (ensure(!BarrelToSet)) {
 
 		UE_LOG(LogTemp, Error, TEXT("Barrel Not Found"));
 	}
@@ -79,7 +79,7 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 
 void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
 {
-	if (!TurretToSet)
+	if (ensure(!TurretToSet))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Turret Not Found"));
 	}
@@ -123,18 +123,21 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 }
 
-void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet) 
+void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
+{
+	if(ensure((!BarrelToSet) || (!TurretToSet)))
 	{
-	if (!BarrelToSet || !TurretToSet) 
-	{
-	
-		UE_LOG(LogTemp,Error,TEXT("There is no barrel or turret reference found!!"));
-	
+
+		UE_LOG(LogTemp, Error, TEXT("There is no barrel or turret reference found!!"));
+
 	}
-	else 
+	else
 	{
 		Barrel = BarrelToSet;
 		Turret = TurretToSet;
-	
-		}
+
 	}
+}
+
+
+UTankBarrel* UTankAimingComponent::GetBarrelReference() { return Barrel; }

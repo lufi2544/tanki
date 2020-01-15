@@ -45,8 +45,9 @@ public:
 
 protected:
 
-	UPROPERTY(BlueprintReadOnly)
-		EFiringState FiringState = EFiringState::Reloading;
+	/* If the AimingComponent on the Tank is found then the event is executed*/
+	UPROPERTY(BlueprintReadOnly,EditAnywhere, Category ="Aiming")
+		EFiringState FiringState = EFiringState::Moving;
 
 
 

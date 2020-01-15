@@ -17,3 +17,7 @@ BattleTank.uproject
 Source/BattleTank/polo.h
 Source/BattleTank/polo.cpp
 .vs/
+*.sln
+*.sln
+BattleTank.sln
+*.json

@@ -14,7 +14,9 @@ ATank::ATank()
 
 	//TODO eliminate the subobject and test in a way that we make a UPROPERTY from a UAimingComponent and BlueprintReadOnly, then use that variable for the UI.
 
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+
+
+	UE_LOG(LogTemp, Error, TEXT("%s Donkey c++ Begin Constructor"),*GetName());
 
 }
 
@@ -24,7 +26,8 @@ void ATank::BeginPlay()
 	Super::BeginPlay();
 
 
-	Barrel = TankAimingComponent->GetBarrelReference();
+
+	UE_LOG(LogTemp,Error, TEXT("Donkey c++ Begin play"));
 
 
 }
@@ -48,6 +51,8 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::AimAt(FVector ObjectVector) const
 {
 
+	if(ensure(!TankAimingComponent)) { return; }
+
 	TankAimingComponent->AimAt(ObjectVector, LaunchSpeed);
 
 }
@@ -55,37 +60,47 @@ void ATank::AimAt(FVector ObjectVector) const
 
 void ATank::Fire()
 {
+	if (ensure(!TankAimingComponent)) {
+	
+		UE_LOG(LogTemp, Error, TEXT("Fire error"));
 
-	bool IsReloaded = (FPlatformTime::Seconds() - LastTimeReloaded > ReloadTimeSeconds);
+	}
+	else
+	{
 
+	
 
-	if (Barrel && IsReloaded) {
-
-
-		FVector ProyectileSocketLocation = Barrel->GetSocketLocation(FName("Proyectile"));
-		FRotator ProyectileSocketRotation = Barrel->GetSocketRotation(FName("Proyectile"));
-
-
-		//Spawn a Proyectile on the socjet of the barrel
-
-		auto Proyectile = GetWorld()->SpawnActor<AProyectile>(
-			ProyectileBlueprint,
-			ProyectileSocketLocation,
-			ProyectileSocketRotation
-			);
-
-		Proyectile->FireProyectile(LaunchSpeed);
-
-		LastTimeReloaded = FPlatformTime::Seconds();
+		bool IsReloaded = (FPlatformTime::Seconds() - LastTimeReloaded > ReloadTimeSeconds);
 
 
+		if (Barrel && IsReloaded) {
+
+
+			FVector ProyectileSocketLocation = Barrel->GetSocketLocation(FName("Proyectile"));
+			FRotator ProyectileSocketRotation = Barrel->GetSocketRotation(FName("Proyectile"));
+
+
+			//Spawn a Proyectile on the socjet of the barrel
+
+			auto Proyectile = GetWorld()->SpawnActor<AProyectile>(
+				ProyectileBlueprint,
+				ProyectileSocketLocation,
+				ProyectileSocketRotation
+				);
+
+			Proyectile->FireProyectile(LaunchSpeed);
+
+			LastTimeReloaded = FPlatformTime::Seconds();
+
+
+		}
+		
 	}
 
 }
 
 
 
-UTankAimingComponent* ATank::GetAimingComponent() { return TankAimingComponent; }
 
 
 

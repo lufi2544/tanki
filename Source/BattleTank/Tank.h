@@ -31,7 +31,7 @@ public:
 	UFUNCTION(Blueprintcallable, Category = Controls)
 		void Fire();
 
-	
+
 
 	void AimAt(FVector ObjectVector)const;
 
@@ -41,12 +41,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(BlueprintPure, Category = "Set Up")
-		UTankAimingComponent* GetAimingComponent();
 
-
-
-		
 
 protected:
 	// Called when the game starts or when spawned
