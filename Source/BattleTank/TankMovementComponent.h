@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Epic Games (Employee : Juan Esteban Rayo Contreras
 
 #pragma once
 
@@ -34,15 +34,14 @@ class BATTLETANK_API UTankMovementComponent : public UNavMovementComponent
 
 
 
-	protected:
-
-	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
-
 	private:
 
 	float DotVectorAngle;
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
+
+	// Caled from the path finidng logic by AIController class
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 
 	
 };

@@ -8,6 +8,7 @@
 */DerivedDataCache
 */Saved	
 *_BuiltData.uasset
+*_.sln
 Saved/
 Binaries/
 Intermediate/
@@ -15,3 +16,4 @@ BattleTank.code-workspace
 BattleTank.uproject
 Source/BattleTank/polo.h
 Source/BattleTank/polo.cpp
+.vs/

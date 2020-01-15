@@ -4,7 +4,7 @@
 #include "Proyectile.h"
 #include "ShootMovementcomponent.h"
 
-// Sets default values
+// Sets default valuesaaa
 AProyectile::AProyectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -22,6 +22,10 @@ void AProyectile::BeginPlay()
 	Super::BeginPlay();
 	
 }
+<<<<<<< HEAD
+=======
+/*lolololo*/
+>>>>>>> f920c3179640bf83a3cfde117caca6aee29561e9
 // Called every frame
 void AProyectile::Tick(float DeltaTime)
 {

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Epic Games (Employee : Juan Esteban Rayo Contreras helloooo
 
 #include "TankPlayerController.h"
 #include "Tank.h"
@@ -19,7 +19,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
           IntendMoveSides(CrossProSides.Z);
 
 
-         UE_LOG(LogTemp,Warning,TEXT("%f"),DotVectorAngle);
+          UE_LOG(LogTemp,Warning,TEXT("%s :    Forward: %f   Sides: %f"),*GetOwner()->GetName(),DotVectorAngle,CrossProSides.Z);
 
          IntendMoveForward(DotVectorAngle);
 
