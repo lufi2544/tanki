@@ -20,44 +20,45 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 {
 
-	if (ensure(!Barrel)) { return; }
+	if (!ensure(Barrel)) { return; }
+	else {
 
-	FVector out_LaunchVelocity;
-	TArray<AActor*>ActorstoIgnore;
-	ActorstoIgnore.Add(GetOwner());
+		FVector out_LaunchVelocity;
+		TArray<AActor*>ActorstoIgnore;
+		ActorstoIgnore.Add(GetOwner());
 
-	bool SuggestProyectileVelocity = UGameplayStatics::SuggestProjectileVelocity(
+		bool SuggestProyectileVelocity = UGameplayStatics::SuggestProjectileVelocity(
 
-		this,
-		out_LaunchVelocity,
-		Barrel->GetSocketLocation(FName("Proyectile")),
-		AimLocation,
-		LaunchSpeed,
-		false,
-		0,
-		0,
-		ESuggestProjVelocityTraceOption::DoNotTrace,
-		FCollisionResponseParams::DefaultResponseParam
+			this,
+			out_LaunchVelocity,
+			Barrel->GetSocketLocation(FName("Proyectile")),
+			AimLocation,
+			LaunchSpeed,
+			false,
+			0,
+			0,
+			ESuggestProjVelocityTraceOption::DoNotTrace,
+			FCollisionResponseParams::DefaultResponseParam
 
-	);
+		);
 
 
-	if (SuggestProyectileVelocity)
-	{
-		auto AimDirection = out_LaunchVelocity.GetSafeNormal();
+		if (SuggestProyectileVelocity)
+		{
+			auto AimDirection = out_LaunchVelocity.GetSafeNormal();
 
-		MoveBarrelTowards(AimDirection);
+			MoveBarrelTowards(AimDirection);
+
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("False"));
+		}
+
+
+
 
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("False"));
-	}
-
-
-
-
-
 
 
 
@@ -65,7 +66,7 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 }
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
-	if (ensure(!BarrelToSet)) {
+	if (!ensure(BarrelToSet)) {
 
 		UE_LOG(LogTemp, Error, TEXT("Barrel Not Found"));
 	}
@@ -79,7 +80,7 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 
 void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
 {
-	if (ensure(!TurretToSet))
+	if (!ensure(TurretToSet))
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Turret Not Found"));
 	}
@@ -125,7 +126,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
-	if(ensure((!BarrelToSet) || (!TurretToSet)))
+	if(ensure((BarrelToSet) || ensure(TurretToSet)))
 	{
 
 		UE_LOG(LogTemp, Error, TEXT("There is no barrel or turret reference found!!"));

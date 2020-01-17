@@ -28,7 +28,7 @@ void ATankAIController::BeginPlay()
                 ATank* AITank = Cast<ATank> (GetPawn());
                    
                    
-                    if(!PlayerTank)
+                    if(!ensure(PlayerTank))
                     {
                   UE_LOG(LogTemp,Error,TEXT("There is no Player Tank found"));
                     }else
@@ -42,13 +42,12 @@ void ATankAIController::BeginPlay()
                     
 
 
-                    if(!AITank)
+                    if(!ensure(AITank))
                          {
                   UE_LOG(LogTemp,Error,TEXT("There is no AI Tank found"));
                          }
 
-                MoveToActor(
-                  GetTankPlayerController()->GetControlledTank(),AproachAmount );
+                MoveToActor(GetTankPlayerController()->GetControlledTank(),AproachAmount );
 
           
 

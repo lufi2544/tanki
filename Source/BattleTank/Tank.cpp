@@ -51,7 +51,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::AimAt(FVector ObjectVector) const
 {
 
-	if(ensure(!TankAimingComponent)) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 
 	TankAimingComponent->AimAt(ObjectVector, LaunchSpeed);
 
@@ -60,7 +60,7 @@ void ATank::AimAt(FVector ObjectVector) const
 
 void ATank::Fire()
 {
-	if (ensure(!TankAimingComponent)) {
+	if (!ensure(TankAimingComponent)) {
 	
 		UE_LOG(LogTemp, Error, TEXT("Fire error"));
 
@@ -91,8 +91,12 @@ void ATank::Fire()
 			Proyectile->FireProyectile(LaunchSpeed);
 
 			LastTimeReloaded = FPlatformTime::Seconds();
+			
 
-
+		}
+		else
+		{
+			UE_LOG(LogTemp,Warning,TEXT("Haven´t reloaded yet or no barrl reference found!"));
 		}
 		
 	}
