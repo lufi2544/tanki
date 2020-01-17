@@ -1,5 +1,4 @@
 #include "TankTrack.h"
-#include "TankMovementComponent.h"
 #include "TankTurret.h"
 #include "TankBarrel.h"
 #include "GameFramework/Character.h"
@@ -26,6 +25,9 @@ void ATank::BeginPlay()
 	Super::BeginPlay();
 
 
+	 TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+
+	 if (!ensure(TankAimingComponent)) { return; }
 
 	UE_LOG(LogTemp,Error, TEXT("Donkey c++ Begin play"));
 
@@ -60,10 +62,10 @@ void ATank::AimAt(FVector ObjectVector) const
 
 void ATank::Fire()
 {
-	if (!ensure(TankAimingComponent)) {
+	if (!ensure(Barrel)) {
 	
 		UE_LOG(LogTemp, Error, TEXT("Fire error"));
-
+		return;
 	}
 	else
 	{

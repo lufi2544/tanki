@@ -13,7 +13,6 @@
 class UTankBArrel;
 class UTankTurret;
 class AProyectile;
-class UTankMovementComponent;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -53,6 +52,7 @@ private:
 
 	ATank();
 
+		//TODO remove opnce fire has been removed
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float LaunchSpeed = 10000;
 

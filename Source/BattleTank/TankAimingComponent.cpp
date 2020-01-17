@@ -20,8 +20,8 @@ UTankAimingComponent::UTankAimingComponent()
 void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 {
 
-	if (!ensure(Barrel)) { return; }
-	else {
+	if (!ensure(Barrel)) { return;}
+	
 
 		FVector out_LaunchVelocity;
 		TArray<AActor*>ActorstoIgnore;
@@ -56,13 +56,6 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 		}
 
 
-
-
-	}
-
-
-
-
 }
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
@@ -94,29 +87,22 @@ void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 
+	if (!ensure(Barrel) || !ensure(Turret)) { return; }
+
+
 	auto TankName = GetOwner()->GetName();
 	auto BarrelCurrentRotation = Barrel->GetForwardVector().Rotation();
 	auto AimDirectionRotation = AimDirection.Rotation();
 	auto DeltaRotator = AimDirectionRotation - BarrelCurrentRotation;
 
 
-	//Move th ebarrel the roght amount this frame
-	if (Barrel) {
+		//Elevate thee Barrel
 		Barrel->Elevate(DeltaRotator.GetNormalized().Pitch);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("No Barrel Reference Found"));
-	}
 
-	if (Turret) {
+		//Rotate the Barrel
 		Turret->Rotatate(DeltaRotator.GetNormalized().Yaw);
 
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("No Turret Reference Found"));
-	}
+	
 
 
 
@@ -126,7 +112,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
-	if(ensure((BarrelToSet) || ensure(TurretToSet)))
+	if(!ensure((BarrelToSet) || !ensure(TurretToSet)))
 	{
 
 		UE_LOG(LogTemp, Error, TEXT("There is no barrel or turret reference found!!"));
