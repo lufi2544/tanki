@@ -5,7 +5,6 @@
 #include "Engine/World.h"
 #include "CollisionQueryParams.h"
 #include "TankPlayerController.h"
-#include "Tank.h"
 
 
 
@@ -15,30 +14,22 @@ void ATankPlayerController::BeginPlay()
 {
 
     Super::BeginPlay();
-
-    auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-    auto Tank = GetControlledTank();
-
-    if (!ensure(Tank))
-    {
-        UE_LOG(LogTemp, Error, TEXT("No Tank Possesed!"));
-
-    }
-    else {
-        UE_LOG(LogTemp, Warning, TEXT("%s"), *Tank->GetName());
-    }
-
+    
+    auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+ 
 
 
     if (!ensure(AimingComponent))
         {
-    UE_LOG(LogTemp,Warning,TEXT("Player Controller class didn´t find a Aiming Component"))
+        UE_LOG(LogTemp, Warning, TEXT("Player Controller class didn´t find a Aiming Component"));
     
     
     }
     else
     {
         FoundAimingComponent(AimingComponent);
+
+        TankAimingComponent = AimingComponent;
 
     }
 
@@ -55,28 +46,27 @@ void ATankPlayerController::Tick(float DeltaSeconds)
     if (GetIfCrossHairTurretImpact(HitLocation))
     {
 
-        GetControlledTank()->AimAt(HitLocation);
+      // GetControlledTank()->AimAt(HitLocation);
+
+        TankAimingComponent->AimAt(HitLocation);
 
     }
     else
     {
-        GetControlledTank()->AimAt(FVector(0, 0, 0));
+       // GetControlledTank()->AimAt(FVector(0, 0, 0));
+
+        TankAimingComponent->AimAt(FVector(0, 0, 0));
     }
 
 
 
 }
 
-ATank* ATankPlayerController::GetControlledTank() const
-{
-    ATank* Tank = Cast<ATank>(GetPawn());
 
-    return Tank;
-}
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-    if (!GetControlledTank()) { return; }
+    if (!GetPawn()) { return; }
 
     //Get linetrace location if linetrace hits trought crosshair
     //If it hits the landscape
@@ -110,6 +100,7 @@ bool ATankPlayerController::GetIfCrossHairTurretImpact(FVector& out_HitLocation)
         }
         else
         {
+
             return false;
         }
 
@@ -128,7 +119,7 @@ bool ATankPlayerController::GetLookDirection(FVector2D CrossHairScreenLocation, 
 
 bool ATankPlayerController::GetLookVectorHitResult(FVector LookDirection, FHitResult& out_HitLocation)const
 {
-    FCollisionQueryParams QueryParams = FCollisionQueryParams(TEXT(""), false, GetControlledTank());
+    FCollisionQueryParams QueryParams = FCollisionQueryParams(TEXT(""), false, GetPawn());
 
 
     FVector StartLocation = PlayerCameraManager->GetCameraLocation();

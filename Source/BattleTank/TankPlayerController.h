@@ -25,11 +25,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
-	UFUNCTION(BlueprintPure, Category = "SetUp")
-		ATank* GetControlledTank() const;
-
-
-
 
 protected:
 
@@ -37,7 +32,7 @@ protected:
 		void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
 
-
+	UTankAimingComponent* TankAimingComponent = nullptr;
 
 
 
@@ -50,6 +45,7 @@ private:
 	bool GetLookDirection(FVector2D CrossHairScreenLocation, FVector& LookDirection) const;
 	bool GetLookVectorHitResult(FVector LookDirection, FHitResult& out_HitLocation) const;
 	FVector GetTurretReach(FVector	StartLocation, FVector LookDirection) const;
+
 
 
 	UPROPERTY(EditAnywhere)

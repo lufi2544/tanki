@@ -25,9 +25,7 @@ void ATank::BeginPlay()
 	Super::BeginPlay();
 
 
-	 TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 
-	 if (!ensure(TankAimingComponent)) { return; }
 
 	UE_LOG(LogTemp,Error, TEXT("Donkey c++ Begin play"));
 
@@ -49,15 +47,6 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-
-void ATank::AimAt(FVector ObjectVector) const
-{
-
-	if (!ensure(TankAimingComponent)) { return; }
-
-	TankAimingComponent->AimAt(ObjectVector, LaunchSpeed);
-
-}
 
 
 void ATank::Fire()

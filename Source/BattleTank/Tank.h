@@ -5,7 +5,6 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankAimingComponent.h"
 #include "CoreMinimal.h"
-#include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
@@ -30,10 +29,6 @@ public:
 	UFUNCTION(Blueprintcallable, Category = Controls)
 		void Fire();
 
-
-
-	void AimAt(FVector ObjectVector)const;
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -45,8 +40,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:
 

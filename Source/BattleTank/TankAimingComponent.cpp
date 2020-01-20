@@ -17,7 +17,7 @@ UTankAimingComponent::UTankAimingComponent()
 
 
 
-void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector AimLocation)
 {
 
 	if (!ensure(Barrel)) { return;}
@@ -52,7 +52,7 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed)
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("False"));
+			UE_LOG(LogTemp, Warning, TEXT("Did´t hit anything!"));
 		}
 
 

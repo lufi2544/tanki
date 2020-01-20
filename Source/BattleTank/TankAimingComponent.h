@@ -21,7 +21,7 @@ class UTankBarrel; //Forward declaration
 class UTankTurret;
 
 //Holds Barrel´s properties and Elevate Method
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent), hidecategories="Sockets")
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -34,7 +34,7 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
-	void AimAt(FVector AimLocation, float LaunchSpeed);
+	void AimAt(FVector AimLocation);
 	void MoveBarrelTowards(FVector AimDirection);
 	void SetTurretReference(UTankTurret* TurretToSet);
 	UTankBarrel* GetBarrelReference();
@@ -42,12 +42,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = " Set Up")
 		void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
+	/* If the AimingComponent on the Tank is found then the event is executed*/
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Aiming")
+		EFiringState FiringState = EFiringState::Moving;
+
 
 protected:
 
-	/* If the AimingComponent on the Tank is found then the event is executed*/
-	UPROPERTY(BlueprintReadOnly,EditAnywhere, Category ="Aiming")
-		EFiringState FiringState = EFiringState::Moving;
+	
+
+	//TODO remove opnce fire has been removed
+	UPROPERTY(EditAnywhere, Category = Firing)
+		float LaunchSpeed = 10000;
 
 
 

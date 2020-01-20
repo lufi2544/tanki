@@ -3,7 +3,6 @@
 
 #include "TankAimingComponent.h"
 #include "TankPlayerController.h"
-#include "Tank.h"
 #include "TankAIController.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
@@ -26,6 +25,8 @@ void ATankAIController::BeginPlay()
 
                 ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
                 ATank* AITank = Cast<ATank> (GetPawn());
+
+                auto TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
                    
                    
                     if(!ensure(PlayerTank))
@@ -34,9 +35,11 @@ void ATankAIController::BeginPlay()
                     }else
                     {
                         
-                     AITank->AimAt(PlayerTank->GetActorLocation());
+                       TankAimingComponent->AimAt(GetTankPlayerController()->GetPawn()->GetActorLocation());
 
-                  // AITank->Fire();
+
+                        //TODO Fix Firing
+                        // AITank->Fire();
 
                     }
                     
@@ -47,7 +50,7 @@ void ATankAIController::BeginPlay()
                   UE_LOG(LogTemp,Error,TEXT("There is no AI Tank found"));
                          }
 
-                MoveToActor(GetTankPlayerController()->GetControlledTank(),AproachAmount );
+                MoveToActor(GetTankPlayerController()->GetPawn(),AproachAmount );
 
           
 
