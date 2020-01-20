@@ -23,10 +23,6 @@ class BATTLETANK_API ATankAIController : public AAIController
 
 	private:
 
-	ATankPlayerController* GetTankPlayerController();
-
-
-
 	//Maximum approach to the Player Tank
 	UPROPERTY(EditDefaultsOnly, Category= "AI Movement")
 	float AproachAmount = 3000;

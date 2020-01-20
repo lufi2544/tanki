@@ -14,9 +14,6 @@ ATank::ATank()
 	//TODO eliminate the subobject and test in a way that we make a UPROPERTY from a UAimingComponent and BlueprintReadOnly, then use that variable for the UI.
 
 
-
-	UE_LOG(LogTemp, Error, TEXT("%s Donkey c++ Begin Constructor"),*GetName());
-
 }
 
 // Called when the game starts or when spawned
@@ -25,9 +22,6 @@ void ATank::BeginPlay()
 	Super::BeginPlay();
 
 
-
-
-	UE_LOG(LogTemp,Error, TEXT("Donkey c++ Begin play"));
 
 
 }

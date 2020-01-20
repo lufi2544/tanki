@@ -23,19 +23,19 @@ void ATankAIController::BeginPlay()
         {
                 Super::Tick(DeltaTime);
 
-                ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+                auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
                 ATank* AITank = Cast<ATank> (GetPawn());
 
                 auto TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
                    
                    
-                    if(!ensure(PlayerTank))
+                    if(!ensure(PlayerTank && AITank))
                     {
                   UE_LOG(LogTemp,Error,TEXT("There is no Player Tank found"));
                     }else
                     {
                         
-                       TankAimingComponent->AimAt(GetTankPlayerController()->GetPawn()->GetActorLocation());
+                       TankAimingComponent->AimAt(PlayerTank->GetActorLocation());
 
 
                         //TODO Fix Firing
@@ -43,20 +43,15 @@ void ATankAIController::BeginPlay()
 
                     }
                     
-
-
                     if(!ensure(AITank))
                          {
                   UE_LOG(LogTemp,Error,TEXT("There is no AI Tank found"));
                          }
 
-                MoveToActor(GetTankPlayerController()->GetPawn(),AproachAmount );
+                MoveToActor(PlayerTank,AproachAmount );
 
           
 
         }
-
-ATankPlayerController* ATankAIController::GetTankPlayerController()
-  {return Cast<ATankPlayerController>(GetWorld()->GetFirstPlayerController()); }
 
     
