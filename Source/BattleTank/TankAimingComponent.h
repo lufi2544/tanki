@@ -17,7 +17,10 @@ enum class EFiringState : uint8
 	Locked
 };
 
-class UTankBarrel; //Forward declaration
+
+//Forward declarations
+class AProyectile;
+class UTankBarrel; 
 class UTankTurret;
 
 //Holds Barrel´s properties and Elevate Method
@@ -47,13 +50,25 @@ public:
 		EFiringState FiringState = EFiringState::Moving;
 
 
+	UFUNCTION(Blueprintcallable, Category = Firing)
+		void Fire();
+
 protected:
 
 	
 
-	//TODO remove opnce fire has been removed
+	double LastTimeReloaded = 0;
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+		float ReloadTimeSeconds = 2;
+
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float LaunchSpeed = 10000;
+
+	UPROPERTY(EditDefaultsOnly, Category = SetUp)
+		TSubclassOf<AProyectile> ProyectileBlueprint;
+
+
 
 
 

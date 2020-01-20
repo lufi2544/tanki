@@ -20,15 +20,14 @@ this->SetStaticMesh(StaticMeshFinder.Object);
     
 }
 
+
 void UTankTurret::Rotatate(float RotationDegrees)
     {
 
         RotationDegrees = FMath::Clamp<float>(RotationDegrees,-1,+1);
        auto RotationChange =  RotationDegrees * DegreesPerSecond * GetWorld()->DeltaTimeSeconds;
        auto CurrentRotation = RelativeRotation.Yaw + RotationChange;
-      // auto CCurreentRotation = FMath::Clamp<float>(CurrentRotation,-360,360);
 
        SetRelativeRotation(FRotator(0,CurrentRotation,0));
-    
 
     }

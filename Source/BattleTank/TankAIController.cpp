@@ -24,7 +24,7 @@ void ATankAIController::BeginPlay()
                 Super::Tick(DeltaTime);
 
                 auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
-                ATank* AITank = Cast<ATank> (GetPawn());
+                APawn* AITank = GetPawn();
 
                 auto TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
                    

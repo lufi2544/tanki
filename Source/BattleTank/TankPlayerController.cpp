@@ -49,6 +49,7 @@ void ATankPlayerController::Tick(float DeltaSeconds)
       // GetControlledTank()->AimAt(HitLocation);
 
         TankAimingComponent->AimAt(HitLocation);
+       
 
     }
     else

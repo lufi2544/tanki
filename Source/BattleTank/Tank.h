@@ -9,10 +9,6 @@
 #include "Tank.generated.h"
 
 
-class UTankBArrel;
-class UTankTurret;
-class AProyectile;
-
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
@@ -23,11 +19,6 @@ class BATTLETANK_API ATank : public APawn
 
 
 public:
-
-
-
-	UFUNCTION(Blueprintcallable, Category = Controls)
-		void Fire();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -44,26 +35,5 @@ protected:
 private:
 
 	ATank();
-
-		//TODO remove opnce fire has been removed
-	UPROPERTY(EditAnywhere, Category = Firing)
-		float LaunchSpeed = 10000;
-
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-		float ReloadTimeSeconds = 3;
-
-	UPROPERTY(EditDefaultsOnly, Category = SetUp)
-		TSubclassOf<AProyectile> ProyectileBlueprint;
-
-
-	//Local Barrel Reference for spawning proyectile
-	UTankBarrel* Barrel = nullptr;
-
-
-
-	double LastTimeReloaded = 0;
-
-
-
 
 };
