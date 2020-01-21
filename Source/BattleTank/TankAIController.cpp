@@ -39,7 +39,7 @@ void ATankAIController::BeginPlay()
 
 
                         //TODO Fix Firing
-                        // AITank->Fire();
+                       TankAimingComponent->Fire();
 
                     }
                     

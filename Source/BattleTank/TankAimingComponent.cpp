@@ -17,6 +17,43 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 
+ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) 
+{
+
+
+	 bool IsReloaded = (FPlatformTime::Seconds() - LastTimeReloaded > ReloadTimeSeconds);
+
+
+	 if (FPlatformTime::Seconds() - LastTimeReloaded < ReloadTimeSeconds) 
+	 {
+	 
+		 FiringState = EFiringState::Reloading;
+	 
+	 }
+	 else if (IsBarrelMoving())
+	 {
+
+		 FiringState = EFiringState::Moving;
+
+	 }
+	 else
+	 {
+		 FiringState = EFiringState::Locked;
+	 }
+	
+
+}
+
+ void UTankAimingComponent::BeginPlay() 
+	{
+ 
+
+	// The Tanks don´t shoot until at least 3 seconds has passed.
+	 LastTimeReloaded = FPlatformTime::Seconds();
+ 
+	}
+
+
 
 
 void UTankAimingComponent::AimAt(FVector AimLocation)
@@ -46,7 +83,7 @@ void UTankAimingComponent::AimAt(FVector AimLocation)
 
 		if (SuggestProyectileVelocity)
 		{
-			auto AimDirection = out_LaunchVelocity.GetSafeNormal();
+			 AimDirection = out_LaunchVelocity.GetSafeNormal();
 
 			MoveBarrelTowards(AimDirection);
 
@@ -134,21 +171,15 @@ UTankBarrel* UTankAimingComponent::GetBarrelReference() { return Barrel; }
 
 void UTankAimingComponent::Fire() 
 	{
-	if (!ensure(Barrel)|| !ensure(Turret) || !ensure(ProyectileBlueprint)) {
+		if (!ensure(Barrel)|| !ensure(Turret) || !ensure(ProyectileBlueprint)) 
+			{
 
-		UE_LOG(LogTemp, Error, TEXT("Fire error"));
-		return;
-	}
-	else
-	{
-
+			UE_LOG(LogTemp, Error, TEXT("Fire error"));
+			return;
+			}
 
 
-		bool IsReloaded = (FPlatformTime::Seconds() - LastTimeReloaded > ReloadTimeSeconds);
-
-
-		if (Barrel && IsReloaded) {
-
+		if (FiringState != EFiringState::Reloading) {
 
 			FVector ProyectileSocketLocation = Barrel->GetSocketLocation(FName("Proyectile"));
 			FRotator ProyectileSocketRotation = Barrel->GetSocketRotation(FName("Proyectile"));
@@ -168,14 +199,28 @@ void UTankAimingComponent::Fire()
 
 
 		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Haven´t reloaded yet or no barrel reference found!"));
-		}
 
 	}
 
 
+bool UTankAimingComponent::IsBarrelMoving() 
+	{
+
+	FVector BarreFwd = Barrel->GetForwardVector();
+
+	auto Success = AimDirection.Equals(BarreFwd, 0.09f);
 
 
+	if (Success)
+	{
+
+
+		UE_LOG(LogTemp, Warning, TEXT("Moving"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("not"));
+	}
+
+	return !Success;
 	}
