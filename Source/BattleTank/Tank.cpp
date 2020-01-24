@@ -1,5 +1,6 @@
-#include "GameFramework/Character.h"
 #include "Tank.h"
+#include "GameFramework/Character.h"
+
 
 // Sets default values
 ATank::ATank()

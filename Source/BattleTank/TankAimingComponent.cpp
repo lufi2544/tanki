@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "TankAimingComponent.h"
 #include "Proyectile.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
-#include "TankAimingComponent.h"
+
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -48,7 +48,7 @@ UTankAimingComponent::UTankAimingComponent()
 	{
  
 
-	// The Tanks don´t shoot until at least 3 seconds has passed.
+	// The Tanks donï¿½t shoot until at least 3 seconds has passed.
 	 LastTimeReloaded = FPlatformTime::Seconds();
  
 	}
@@ -83,15 +83,14 @@ void UTankAimingComponent::AimAt(FVector AimLocation)
 
 		if (SuggestProyectileVelocity)
 		{
-			 AimDirection = out_LaunchVelocity.GetSafeNormal();
+			 AimDirection = out_LaunchVelocity;
 
-			MoveBarrelTowards(AimDirection);
-
+			MoveBarrelTowards(AimDirection.GetSafeNormal());
 
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Did´t hit anything!"));
+			UE_LOG(LogTemp, Warning, TEXT("Didn`t hit anything!"));
 		}
 
 
@@ -208,21 +207,9 @@ bool UTankAimingComponent::IsBarrelMoving()
 
 	if (!ensure(Barrel)) { return false; }
 
-	FVector BarreFwd = Barrel->GetForwardVector();
+	FVector BarrelFwd = Barrel->GetForwardVector();
 
-	auto Success = AimDirection.Equals(BarreFwd, 0.09f);
-
-
-	if (Success)
-	{
-
-
-		UE_LOG(LogTemp, Warning, TEXT("Moving"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("not"));
-	}
-
+	auto Success = BarrelFwd.Equals(AimDirection.GetSafeNormal(),0.09f);
+	
 	return !Success;
 	}

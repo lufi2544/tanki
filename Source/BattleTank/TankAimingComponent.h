@@ -35,23 +35,34 @@ private:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void BeginPlay() override;
 
-	bool IsBarrelMoving();
 
 	FVector AimDirection;
-
-
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	/**
+	 * @return bool If the barrel is currently moving.
+	 *
+	*/
+	bool IsBarrelMoving();
 
 public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
+
+
+	UTankBarrel* GetBarrelReference();
+
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 	void AimAt(FVector AimLocation);
 	void MoveBarrelTowards(FVector AimDirection);
 	void SetTurretReference(UTankTurret* TurretToSet);
-	UTankBarrel* GetBarrelReference();
 
+	/**
+	 * Initialise the needed components into c++.
+	 * @param BarrelToSet Takes the reference of the barrel into c++.
+	 * @param TurretToSet Takes the reference of the Turret into c++.
+	**/
 	UFUNCTION(BlueprintCallable, Category = " Set Up")
 		void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
@@ -59,7 +70,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Aiming")
 		EFiringState FiringState = EFiringState::Moving;
 
-
+	//Makes the tank Fire.
 	UFUNCTION(Blueprintcallable, Category = Firing)
 		void Fire();
 
