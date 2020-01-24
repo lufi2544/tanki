@@ -47,8 +47,8 @@ UTankAimingComponent::UTankAimingComponent()
  void UTankAimingComponent::BeginPlay() 
 	{
  
-
-	// The Tanks don�t shoot until at least 3 seconds has passed.
+			Super::BeginPlay();
+	// The Tanks dont shoot until at least 3 seconds has passed.
 	 LastTimeReloaded = FPlatformTime::Seconds();
  
 	}
@@ -210,6 +210,6 @@ bool UTankAimingComponent::IsBarrelMoving()
 	FVector BarrelFwd = Barrel->GetForwardVector();
 
 	auto Success = BarrelFwd.Equals(AimDirection.GetSafeNormal(),0.09f);
-	
+
 	return !Success;
 	}

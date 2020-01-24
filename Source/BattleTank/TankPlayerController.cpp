@@ -21,7 +21,7 @@ void ATankPlayerController::BeginPlay()
 
     if (!ensure(AimingComponent))
         {
-        UE_LOG(LogTemp, Warning, TEXT("Player Controller class didn´t find a Aiming Component"));
+        UE_LOG(LogTemp, Warning, TEXT("Player Controller class didnï¿½t find a Aiming Component"));
     
     
     }
@@ -67,7 +67,7 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-    if (!GetPawn()) { return; }
+    if(!ensure(GetPawn())){return;}
 
     //Get linetrace location if linetrace hits trought crosshair
     //If it hits the landscape

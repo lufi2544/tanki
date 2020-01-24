@@ -32,16 +32,16 @@ class BATTLETANK_API UTankMovementComponent : public UNavMovementComponent
 	UFUNCTION(BlueprintCallable, category = " Movement")
 	void Initialise(UTankTrack* RightTrackToSet, UTankTrack* LeftTrackToSet);
 
-
-
 	private:
 
 	float DotVectorAngle;
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
 
-	// Caled from the path finidng logic by AIController class
+	// Called from the path findidng logic by AIController class
 	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
+
+	
 
 	
 };
