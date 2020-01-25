@@ -17,13 +17,11 @@ AProyectile::AProyectile()
 
 }
 
-// Called when the game starts or when spawned
 void AProyectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
-/*lolololo*/
 // Called every frame
 void AProyectile::Tick(float DeltaTime)
 {
