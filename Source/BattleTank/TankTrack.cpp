@@ -9,6 +9,10 @@
 
 UTankTrack::UTankTrack()
     {
+        
+        PrimaryComponentTick.bCanEverTick=false;
+
+    
             ConstructorHelpers::FObjectFinder<UStaticMesh>StaticmeshFinder(TEXT("StaticMesh'/Game/Tank/tank_fbx_Track.tank_fbx_Track'"));
 
         if(StaticmeshFinder.Object)
@@ -27,28 +31,7 @@ UTankTrack::UTankTrack()
     }
 
 
-    void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-        {
-
-            
-                auto SlippageSpeed = FVector::DotProduct(GetRightVector(),GetComponentVelocity());
-
-                 auto CorrectionAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();
-
-                //(F = m * a)
-
-                auto TankRoot = Cast <UStaticMeshComponent>(GetOwner()->GetRootComponent());
-
-                auto CorrectionForce = TankRoot->GetMass() * CorrectionAcceleration / 2; // 2 tracks
-
-               TankRoot->AddForce(CorrectionForce);
-
-
-
-    
-
-
-        }
+  
 
     void UTankTrack::BeginPlay()
     {
@@ -57,18 +40,51 @@ UTankTrack::UTankTrack()
 
         OnComponentHit.AddDynamic(this,&UTankTrack::OnHit);
 
-        
-
-
-
     }
 
 
     void UTankTrack::SetThrottle(float Throttle)
         {
 
+            CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle,-1,+1);
 
-                auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
+            UE_LOG(LogTemp,Warning,TEXT("%f"),CurrentThrottle);
+
+        }
+
+
+void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit )
+    {
+    
+        DrivingTrack();
+        ApplySidewaysForce();
+      
+        CurrentThrottle =0;
+       
+        
+
+    }
+
+void UTankTrack::ApplySidewaysForce( )
+    {
+     
+                auto SlippageSpeed = FVector::DotProduct(GetRightVector(),GetComponentVelocity());
+
+                 auto CorrectionAcceleration = -SlippageSpeed / GetWorld()->GetDeltaSeconds() * GetRightVector();
+
+                //(F = m * a)
+
+                auto TankRoot = Cast <UStaticMeshComponent>(GetOwner()->GetRootComponent());
+
+                auto CorrectionForce = TankRoot->GetMass() * CorrectionAcceleration / 2; // 2 tracks
+
+               TankRoot->AddForce(CorrectionForce);
+    
+    }
+
+    void  UTankTrack::DrivingTrack()
+        {
+                auto ForceApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;
                 auto ForceLocation = GetComponentLocation();
                 auto TankPrimitiveComponent =Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 
@@ -77,14 +93,5 @@ UTankTrack::UTankTrack()
                     ForceLocation
                 );
 
+
         }
-
-
-void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit )
-    {
-    
-        UE_LOG(LogTemp,Error,TEXT("I am Hit!!!"));
-
-    }
-
-    
