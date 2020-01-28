@@ -27,31 +27,29 @@ void ATankAIController::BeginPlay()
                 APawn* AITank = GetPawn();
 
                 auto TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+
+                auto PlayerAimingComponent = PlayerTank ->FindComponentByClass<UTankAimingComponent>();
                    
                    
-                    if(!ensure(PlayerTank && AITank))
-                    {
-                  UE_LOG(LogTemp,Error,TEXT("There is no Player Tank found"));
-                    }else
-                    {
-                        
-                       TankAimingComponent->AimAt(PlayerTank->GetActorLocation());
+                    if(!ensure(PlayerTank && AITank)){return;}
+                    
+                      MoveToActor(PlayerTank,AproachAmount );
+                 
+                   TankAimingComponent->AimAt(PlayerTank->GetActorLocation());
 
+                  if(PlayerAimingComponent->GetFiringState()== EFiringState::Locked)
+                    {
 
-                        //TODO Fix Firing
-                       TankAimingComponent->Fire();
+                         UE_LOG(LogTemp,Error,TEXT("FIREEEE"));
+
+                        //TankAimingComponent->Fire();
+                         
 
                     }
-                    
-                    if(!ensure(AITank))
-                         {
-                  UE_LOG(LogTemp,Error,TEXT("There is no AI Tank found"));
-                         }
 
-                MoveToActor(PlayerTank,AproachAmount );
+                
 
-          
-
-        }
+          }
+        
 
     

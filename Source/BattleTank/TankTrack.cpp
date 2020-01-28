@@ -48,8 +48,6 @@ UTankTrack::UTankTrack()
 
             CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle,-1,+1);
 
-            UE_LOG(LogTemp,Warning,TEXT("%f"),CurrentThrottle);
-
         }
 
 

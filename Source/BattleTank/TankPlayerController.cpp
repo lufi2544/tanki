@@ -21,7 +21,7 @@ void ATankPlayerController::BeginPlay()
 
     if (!ensure(AimingComponent))
         {
-        UE_LOG(LogTemp, Warning, TEXT("Player Controller class didn�t find a Aiming Component"));
+        UE_LOG(LogTemp, Warning, TEXT("Player Controller class didn´t find a Aiming Component"));
     
     
     }
@@ -43,7 +43,10 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 
     FVector HitLocation;
 
-    if (GetIfCrossHairTurretImpact(HitLocation))
+
+    auto bProyectileImpacted = GetIfCrossHairTurretImpact(HitLocation);
+
+    if (bProyectileImpacted)
     {
 
       // GetControlledTank()->AimAt(HitLocation);

@@ -22,8 +22,10 @@ class BATTLETANK_API ATankAIController : public AAIController
 	private:
 
 	//Maximum approach to the Player Tank
-	UPROPERTY(EditDefaultsOnly, Category= "AI Movement")
-	float AproachAmount = 3000;
+	UPROPERTY(EditAnywhere, Category ="AI")
+	float AproachAmount = 8000;
+
+	//TODO BP assign does not work properly
 	
 	
 	

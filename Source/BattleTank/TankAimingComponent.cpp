@@ -52,6 +52,9 @@ UTankAimingComponent::UTankAimingComponent()
 	 LastTimeReloaded = FPlatformTime::Seconds();
  
 	}
+	
+	EFiringState UTankAimingComponent::GetFiringState() const	
+	{return FiringState;}
 
 
 
@@ -138,7 +141,10 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 		Barrel->Elevate(DeltaRotator.GetNormalized().Pitch);
 
 		//Rotate the Barrel
+		
 		Turret->Rotatate(DeltaRotator.GetNormalized().Yaw);
+		
+		
 
 
 	
@@ -213,3 +219,6 @@ bool UTankAimingComponent::IsBarrelMoving()
 
 	return !Success;
 	}
+
+
+

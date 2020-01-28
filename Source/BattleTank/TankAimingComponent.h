@@ -14,7 +14,8 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Moving,
-	Locked
+	Locked,
+	Idle
 };
 
 
@@ -45,6 +46,7 @@ private:
 	 *
 	*/
 	bool IsBarrelMoving();
+	float RotationVectorNormalized(float DesiredLocation);
 
 public:
 	// Sets default values for this component's properties
@@ -58,6 +60,9 @@ public:
 	void MoveBarrelTowards(FVector AimDirection);
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	/*Returns the current Firing State of the Tank*/
+	EFiringState GetFiringState() const;
+
 	/**
 	 * Initialise the needed components into c++.
 	 * @param BarrelToSet Takes the reference of the barrel into c++.
@@ -66,9 +71,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = " Set Up")
 		void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	/* If the AimingComponent on the Tank is found then the event is executed*/
-	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Aiming")
-		EFiringState FiringState = EFiringState::Moving;
+	
 
 	//Makes the tank Fire.
 	UFUNCTION(Blueprintcallable, Category = Firing)
@@ -89,8 +92,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = SetUp)
 		TSubclassOf<AProyectile> ProyectileBlueprint;
 
-
-
-
+/* If the AimingComponent on the Tank is found then the event is executed*/
+	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Aiming")
+		EFiringState FiringState = EFiringState::Idle ;
 
 };
