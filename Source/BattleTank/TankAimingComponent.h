@@ -15,7 +15,8 @@ enum class EFiringState : uint8
 	Reloading,
 	Moving,
 	Locked,
-	Idle
+	Idle,
+	NoAmmo
 };
 
 
@@ -71,6 +72,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = " Set Up")
 		void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
+	/*Returns the Tank´s ammo*/
+	UFUNCTION(BlueprintPure,Category = "Firing")
+	int32 GetAmmo();
+
+	/*True if the Tank can fire, false if not.*/
+	UFUNCTION(BlueprintPure,Category = "Firing")
+	bool CanFire();
 	
 
 	//Makes the tank Fire.
@@ -79,21 +87,27 @@ public:
 
 protected:
 
-	
-
-	double LastTimeReloaded = 0;
-
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float ReloadTimeSeconds = 2;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float LaunchSpeed = 10000;
 
-	UPROPERTY(EditDefaultsOnly, Category = SetUp)
+	UPROPERTY(EditAnywhere, Category = SetUp)
 		TSubclassOf<AProyectile> ProyectileBlueprint;
 
-/* If the AimingComponent on the Tank is found then the event is executed*/
+	/* If the AimingComponent on the Tank is found then the event is executed*/
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Aiming")
 		EFiringState FiringState = EFiringState::Idle ;
+
+	/*The times we can Fire(The ammo the Tank has)*/
+	UPROPERTY(EditDefaultsOnly,Category ="Firing")
+		int32 Ammo = 3;
+
+
+	double LastTimeReloaded = 0;
+	
+
+
 
 };

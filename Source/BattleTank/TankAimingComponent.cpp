@@ -28,18 +28,29 @@ UTankAimingComponent::UTankAimingComponent()
 	 {
 	 
 		 FiringState = EFiringState::Reloading;
+		 
 	 
 	 }
 	 else if (IsBarrelMoving())
 	 {
 
 		 FiringState = EFiringState::Moving;
+		 
 
 	 }
 	 else
 	 {
 		 FiringState = EFiringState::Locked;
+		
 	 }
+
+	 if(Ammo == 0)
+	 	{
+			 FiringState = EFiringState::NoAmmo;
+
+			UE_LOG(LogTemp,Warning,TEXT("No Ammo!!"));
+
+		 }
 	
 
 }
@@ -48,15 +59,28 @@ UTankAimingComponent::UTankAimingComponent()
 	{
  
 			Super::BeginPlay();
+
 	// The Tanks dont shoot until at least 3 seconds has passed.
 	 LastTimeReloaded = FPlatformTime::Seconds();
  
 	}
 	
-	EFiringState UTankAimingComponent::GetFiringState() const	
+EFiringState UTankAimingComponent::GetFiringState() const	
 	{return FiringState;}
 
+int32 UTankAimingComponent::GetAmmo() 
+	{return Ammo;}
 
+bool UTankAimingComponent::CanFire()
+	{
+		if(Ammo>0 && (FiringState != EFiringState::Reloading))
+		{
+		return true;
+		}else
+		{
+		return false;
+		}
+	}
 
 
 void UTankAimingComponent::AimAt(FVector AimLocation)
@@ -144,13 +168,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 		
 		Turret->Rotatate(DeltaRotator.GetNormalized().Yaw);
 		
-		
-
-
-	
-
-
-
 	//Given a max elevation speed and the frame time
 
 }
@@ -184,7 +201,7 @@ void UTankAimingComponent::Fire()
 			}
 
 
-		if (FiringState != EFiringState::Reloading) {
+		if (CanFire()) {
 
 			FVector ProyectileSocketLocation = Barrel->GetSocketLocation(FName("Proyectile"));
 			FRotator ProyectileSocketRotation = Barrel->GetSocketRotation(FName("Proyectile"));
@@ -201,7 +218,8 @@ void UTankAimingComponent::Fire()
 			Proyectile->FireProyectile(LaunchSpeed);
 
 			LastTimeReloaded = FPlatformTime::Seconds();
-
+			
+			Ammo -=1;
 
 		}
 
@@ -219,6 +237,10 @@ bool UTankAimingComponent::IsBarrelMoving()
 
 	return !Success;
 	}
+
+
+
+
 
 
 
