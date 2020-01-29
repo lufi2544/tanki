@@ -51,8 +51,6 @@ UTankAimingComponent::UTankAimingComponent()
 			UE_LOG(LogTemp,Warning,TEXT("No Ammo!!"));
 
 		 }
-	
-
 }
 
  void UTankAimingComponent::BeginPlay() 

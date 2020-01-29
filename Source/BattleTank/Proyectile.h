@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Particles/ParticleSystemComponent.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Proyectile.generated.h"
@@ -32,6 +33,10 @@ public:
 	void FireProyectile(float Speed);
 
 private:
+
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* CollisionMesh = nullptr;
+	UParticleSystemComponent*  LaunchBlast = nullptr;
 
 	UShootMovementcomponent* ShootMovementComponent = nullptr;
 
