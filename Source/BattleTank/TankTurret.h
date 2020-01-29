@@ -6,6 +6,14 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTurret.generated.h"
 
+
+UENUM()
+enum class ETurretMesh : uint8
+{
+Tank,
+Mortar
+};
+
 /**
  * 
  */
@@ -15,8 +23,12 @@ class BATTLETANK_API UTankTurret : public UStaticMeshComponent
 	GENERATED_BODY()
 
 public:
+	/**
+	 * The Static Mesh reference to build the Turret
+	*/
+	UPROPERTY(BlueprintReadOnly,EditDefaultsOnly,Category ="Set Up")
+	ETurretMesh TurretMesh;
 
-	void Rotatate(float RotationDegrees);
 
 	UPROPERTY(EditDefaultsOnly, Category= SetUp)
 	float MaxDegrees= 180;
@@ -26,6 +38,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category= SetUp)
 	float DegreesPerSecond = 15;
+
+
+	void Rotatate(float RotationDegrees);
 
 
 private:

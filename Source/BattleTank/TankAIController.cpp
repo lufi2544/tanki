@@ -23,12 +23,13 @@ void ATankAIController::BeginPlay()
         {
                 Super::Tick(DeltaTime);
 
+
                 auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
                 APawn* AITank = GetPawn();
-
                 auto TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-
                 auto PlayerAimingComponent = PlayerTank ->FindComponentByClass<UTankAimingComponent>();
+
+                if(!ensure(TankAimingComponent)){return;}
                    
                    
                     if(!ensure(PlayerTank && AITank)){return;}
@@ -36,11 +37,12 @@ void ATankAIController::BeginPlay()
                       MoveToActor(PlayerTank,AproachAmount );
                  
                    TankAimingComponent->AimAt(PlayerTank->GetActorLocation());
+                    UE_LOG(LogTemp,Warning,TEXT("FIRE!!"));
 
                   if(TankAimingComponent->GetFiringState()== EFiringState::Locked)
                     {
 
-                         UE_LOG(LogTemp,Warning,TEXT("FIRE!!"));
+                        
 
                         TankAimingComponent->Fire();
                          

@@ -7,17 +7,18 @@
 
 UTankTurret::UTankTurret()
 {
-ConstructorHelpers::FObjectFinder<UStaticMesh>StaticMeshFinder(TEXT("StaticMesh'/Game/Tank/tank_fbx_Turret.tank_fbx_Turret'"));
+ConstructorHelpers::FObjectFinder<UStaticMesh>TankTurretFinder(TEXT("StaticMesh'/Game/Tank/tank_fbx_Turret.tank_fbx_Turret'"));
+ConstructorHelpers::FObjectFinder<UStaticMesh>MortarTurretFinder(TEXT("StaticMesh'/Game/Mortar/mortar_dome.mortar_dome'"));
 
-if(StaticMeshFinder.Object){
+if(!ensure(TankTurretFinder.Object)){return;}
 
-this->SetStaticMesh(StaticMeshFinder.Object);
+if(TankTurretFinder.Object)
+{
 
-    }else
-    {
-        UE_LOG(LogTemp,Error,TEXT("No Turret Static Mesh Found"));
-    }
-    
+SetStaticMesh(TankTurretFinder.Object);
+
+}
+
 }
 
 
