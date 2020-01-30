@@ -59,9 +59,6 @@ void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UP
         ApplySidewaysForce();
       
         CurrentThrottle =0;
-       
-        
-
     }
 
 void UTankTrack::ApplySidewaysForce( )

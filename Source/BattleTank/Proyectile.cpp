@@ -10,7 +10,7 @@
 AProyectile::AProyectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
 	SetRootComponent(CollisionMesh);
@@ -18,10 +18,13 @@ AProyectile::AProyectile()
 	CollisionMesh->SetVisibility(false);
 
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("LaunchBlast"));
-	LaunchBlast->AttachTo(RootComponent);
+	LaunchBlast->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform);
 	
-	ShootMovementComponent = CreateDefaultSubobject<UShootMovementcomponent>(FName("ShootMovementComponent"));
+	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
+	ImpactBlast->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform);
+	ImpactBlast->bAutoActivate = false;
 
+	ShootMovementComponent = CreateDefaultSubobject<UShootMovementcomponent>(FName("ShootMovementComponent"));
 	ShootMovementComponent->bAutoActivate= false;
 
 }
@@ -30,28 +33,30 @@ void AProyectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
-}
-// Called every frame
-void AProyectile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	OnActorHit.AddDynamic(this,&AProyectile::OnHit);
 
 }
 
-void AProyectile::FireProyectile(float Speed)
+void AProyectile::GetPlayerName() 
+	{GetOwner()->GetName();}
+
+void AProyectile::FireProyectile( float Speed )
 	{
 
-		ShootMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
+		ShootMovementComponent->SetVelocityInLocalSpace( FVector::ForwardVector * Speed );
 
 		ShootMovementComponent->Activate();
 
 	}
 
-
-void AProyectile::GetPlayerName() 
-	{
+	void AProyectile::OnHit(AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit )
 	
-	GetOwner()->GetName();
+		{
 
-}
+			UE_LOG(LogTemp,Error,TEXT("Hit"));
+			
+			LaunchBlast->Deactivate();
+			ImpactBlast->Activate();
+
+		}
 
