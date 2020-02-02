@@ -48,8 +48,6 @@ UTankAimingComponent::UTankAimingComponent()
 	 	{
 			 FiringState = EFiringState::NoAmmo;
 
-			UE_LOG(LogTemp,Warning,TEXT("No Ammo!!"));
-
 		 }
 }
 

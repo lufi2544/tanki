@@ -2,13 +2,14 @@
 
 #pragma once
 
-#include "Particles/ParticleSystemComponent.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Proyectile.generated.h"
 
-
+class UParticleSystemComponent;
 class UShootMovementcomponent;
+class URadialForceComponent;
 
 
 UCLASS()
@@ -44,12 +45,20 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UParticleSystemComponent*  ImpactBlast = nullptr;
 
+	UPROPERTY(VisibleAnywhere)
+	URadialForceComponent* ExplosionForce = nullptr;;
+
+	UPROPERTY(EditAnywhere)
+	float DestroyDelay = 3;
+
 	UFUNCTION()
-	void OnHit (AActor* SelfActor, AActor* OtherActor, FVector NormalImpulse, const FHitResult& Hit );
+	void OnHit (UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit );
 
 	UShootMovementcomponent* ShootMovementComponent = nullptr;
 
 	//Added again
 	void GetPlayerName();
+
+	void OnTimerExpire();
 
 };

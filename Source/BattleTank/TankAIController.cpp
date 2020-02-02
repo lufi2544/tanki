@@ -37,7 +37,7 @@ void ATankAIController::BeginPlay()
                       MoveToActor(PlayerTank,AproachAmount );
                  
                    TankAimingComponent->AimAt(PlayerTank->GetActorLocation());
-                    UE_LOG(LogTemp,Warning,TEXT("FIRE!!"));
+               
 
                   if(TankAimingComponent->GetFiringState()== EFiringState::Locked)
                     {

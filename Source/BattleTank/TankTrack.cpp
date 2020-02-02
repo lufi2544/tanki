@@ -11,10 +11,11 @@ UTankTrack::UTankTrack()
     {
         
         PrimaryComponentTick.bCanEverTick=false;
-
+       
+        
 
     
-            ConstructorHelpers::FObjectFinder<UStaticMesh>StaticmeshFinder(TEXT("StaticMesh'/Game/Tank/tank_fbx_Track.tank_fbx_Track'"));
+         ConstructorHelpers::FObjectFinder<UStaticMesh>StaticmeshFinder(TEXT("StaticMesh'/Game/Tank/tank_fbx_Track.tank_fbx_Track'"));
 
         if(StaticmeshFinder.Object)
             {
