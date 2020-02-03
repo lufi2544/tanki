@@ -2,6 +2,8 @@
 
 #pragma once
 
+#pragma once
+
 
 #include "GameFramework/Controller.h"
 #include "CoreMinimal.h"
@@ -38,6 +40,8 @@ protected:
 
 private:
 
+
+	virtual void SetPawn(APawn* InPawn) override;
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation() const;
 	bool GetIfCrossHairTurretImpact(FVector& out_HitLocation) const;
@@ -47,12 +51,15 @@ private:
 
 
 
-	UPROPERTY(EditAnywhere)
-		float CrossHairXLocation = 0.5;
+	UFUNCTION()
+	void OnTankDeath();
 
 	UPROPERTY(EditAnywhere)
-		float CrossHairYLocation = 0.425;
+	float CrossHairXLocation = 0.5;
 
 	UPROPERTY(EditAnywhere)
-		float ReachLocation = 100000000;
+	float CrossHairYLocation = 0.425;
+
+	UPROPERTY(EditAnywhere)
+	float ReachLocation = 100000000;
 };

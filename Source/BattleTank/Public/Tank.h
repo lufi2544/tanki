@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -8,21 +8,28 @@
 #include "Tank.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankState);
+
 UCLASS()
 class BATTLETANK_API ATank : public APawn
 {
 	GENERATED_BODY()
-
+	
 
 public:
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	/*Delegate triggered when the Tank is dead.*/
+	FTankState OnDeath;
+
 	/**
 	 *Gives you the tank health amount.
 	  **/
 	UFUNCTION(BlueprintPure, Category = "State")
 	float GetTankHealth() const;
+
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
 

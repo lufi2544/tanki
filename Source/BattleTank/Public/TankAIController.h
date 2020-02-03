@@ -7,26 +7,28 @@
 #include "TankAIController.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
-	public:
+public:
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetPawn(APawn* InMesh)override;
 
-	private:
+private:
 
 	//Maximum approach to the Player Tank
-	UPROPERTY(EditAnywhere, Category ="AI")
-	float AproachAmount = 8000;
+	UPROPERTY(EditAnywhere, Category = "AI")
+		float AproachAmount = 8000;
 
 	//TODO BP assign does not work properly
-	
-	
-	
+
+	UFUNCTION()
+	void OnTankDeath();
+
 };

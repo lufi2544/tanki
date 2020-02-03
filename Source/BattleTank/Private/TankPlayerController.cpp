@@ -1,5 +1,5 @@
 
-
+#include "Tank.h"
 #include "TankAimingComponent.h"
 #include "BattleTank.h"
 #include "Engine/World.h"
@@ -14,16 +14,16 @@ void ATankPlayerController::BeginPlay()
 {
 
     Super::BeginPlay();
-    
+
     auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
- 
+
 
 
     if (!ensure(AimingComponent))
-        {
+    {
         UE_LOG(LogTemp, Warning, TEXT("Player Controller class didn´t find a Aiming Component"));
-    
-    
+
+
     }
     else
     {
@@ -49,15 +49,15 @@ void ATankPlayerController::Tick(float DeltaSeconds)
     if (bProyectileImpacted)
     {
 
-      // GetControlledTank()->AimAt(HitLocation);
+        // GetControlledTank()->AimAt(HitLocation);
 
         TankAimingComponent->AimAt(HitLocation);
-       
+
 
     }
     else
     {
-       // GetControlledTank()->AimAt(FVector(0, 0, 0));
+        // GetControlledTank()->AimAt(FVector(0, 0, 0));
 
         TankAimingComponent->AimAt(FVector(0, 0, 0));
     }
@@ -66,11 +66,30 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 
 }
 
+void ATankPlayerController::SetPawn(APawn* InPawn) 
+    {
+
+    Super::SetPawn(InPawn);
+
+    if (InPawn) 
+        {
+
+        auto PossesedTank = Cast<ATank>(InPawn);
+            
+        if (!ensure(PossesedTank)) 
+        { return; }
+         
+        PossesedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnTankDeath);
+    
+        }
+
+    }
+
 
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-    if(!ensure(GetPawn())){return;}
+    if (!ensure(GetPawn())) { return; }
 
     //Get linetrace location if linetrace hits trought crosshair
     //If it hits the landscape
@@ -136,9 +155,6 @@ bool ATankPlayerController::GetLookVectorHitResult(FVector LookDirection, FHitRe
         QueryParams
     );
 
-
-
-
     return HIT;
 }
 
@@ -147,3 +163,11 @@ FVector ATankPlayerController::GetTurretReach(FVector StartLocation, FVector Loo
 {
     return StartLocation + (LookDirection * ReachLocation);
 }
+
+void ATankPlayerController::OnTankDeath() 
+    {
+
+    UE_LOG(LogTemp,Warning,TEXT("Delegating!!!"));
+
+
+    }

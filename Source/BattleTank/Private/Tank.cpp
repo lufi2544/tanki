@@ -46,13 +46,13 @@ bool ATank::ApplyDamage(float DamageTaken)
 							{
 								Dead = true;
 								Health = 0;
-									UE_LOG(LogTemp,Error, TEXT("You Are Dead!!"));
+								OnDeath.Broadcast();
 							}
 					}
 
 		return Dead;
 	}
-
+ 
 
 
 
