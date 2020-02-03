@@ -197,7 +197,7 @@ void UTankAimingComponent::Fire()
 			}
 
 
-		if (CanFire()) {
+		if (CanFire() && TankCanFire) {
 
 			FVector ProyectileSocketLocation = Barrel->GetSocketLocation(FName("Proyectile"));
 			FRotator ProyectileSocketRotation = Barrel->GetSocketRotation(FName("Proyectile"));

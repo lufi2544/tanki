@@ -33,6 +33,10 @@ public:
 
 private:
 
+	//Projectile Damage
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float BaseDamage;
+
 	//Proyectile Static Mesh.
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* CollisionMesh = nullptr;
@@ -45,10 +49,11 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UParticleSystemComponent*  ImpactBlast = nullptr;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "Firing")
 	URadialForceComponent* ExplosionForce = nullptr;;
 
-	UPROPERTY(EditAnywhere)
+	//The delay time for the actor to be destroyed after impacting.
+	UPROPERTY(EditAnywhere, Category = " SetUp")
 	float DestroyDelay = 3;
 
 	UFUNCTION()
@@ -58,7 +63,6 @@ private:
 
 	//Added again
 	void GetPlayerName();
-
 	void OnTimerExpire();
 
 };

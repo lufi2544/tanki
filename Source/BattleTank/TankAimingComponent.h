@@ -93,8 +93,13 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float LaunchSpeed = 10000;
 
+	UPROPERTY(EditAnywhere, Category = Firing)
+		bool TankCanFire = true;
+
 	UPROPERTY(EditAnywhere, Category = SetUp)
 		TSubclassOf<AProyectile> ProyectileBlueprint;
+
+
 
 	/* If the AimingComponent on the Tank is found then the event is executed*/
 	UPROPERTY(BlueprintReadOnly,VisibleAnywhere, Category = "Aiming")

@@ -8,6 +8,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "TimerManager.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/DamageType.h"
 
 // Sets default valuesaaa
 AProyectile::AProyectile()
@@ -68,6 +70,8 @@ void AProyectile::FireProyectile( float Speed )
 	
 		{
 			
+				
+
 			LaunchBlast->Deactivate();
 			ImpactBlast->Activate();
 			ExplosionForce->Activate();
@@ -77,9 +81,20 @@ void AProyectile::FireProyectile( float Speed )
 			CollisionMesh->DestroyComponent();
 
 
+			UGameplayStatics::ApplyRadialDamage(
+				this,
+				BaseDamage,
+				this->GetActorLocation(),
+				ExplosionForce->Radius,
+				UDamageType::StaticClass(),
+				TArray<AActor*>()
+			);
+
+
 			FTimerHandle Timehandler;
 
 			GetWorld()->GetTimerManager().SetTimer(Timehandler,this,&AProyectile::OnTimerExpire,DestroyDelay,false);
+
 
 
 		}
