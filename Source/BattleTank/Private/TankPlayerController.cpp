@@ -167,7 +167,7 @@ FVector ATankPlayerController::GetTurretReach(FVector StartLocation, FVector Loo
 void ATankPlayerController::OnTankDeath() 
     {
 
-    UE_LOG(LogTemp,Warning,TEXT("Delegating!!!"));
+    StartSpectatingOnly();
 
 
     }

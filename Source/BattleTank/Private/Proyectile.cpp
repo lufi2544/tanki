@@ -3,6 +3,7 @@
 
 
 #include "Proyectile.h"
+#include "Mortar.h"
 #include "ShootMovementcomponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -70,12 +71,20 @@ void AProyectile::FireProyectile( float Speed )
 	
 		{
 			
-				
+		TSubclassOf<AMortar>MortarClass;
 
 			LaunchBlast->Deactivate();
 			ImpactBlast->Activate();
+			
 			ExplosionForce->Activate();
-			ExplosionForce->FireImpulse();
+
+			if (OtherActor->GetClass() != MortarClass)
+			{
+				ExplosionForce->FireImpulse();
+				UE_LOG(LogTemp, Warning, TEXT("Comparing!!"));
+
+			}
+			
 			
 			SetRootComponent(ImpactBlast);
 			CollisionMesh->DestroyComponent();

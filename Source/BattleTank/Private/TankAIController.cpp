@@ -25,14 +25,19 @@ void ATankAIController::Tick(float DeltaTime)
 
 
     auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+
+    if (!ensure(PlayerTank)){return;}
+
     APawn* AITank = GetPawn();
     auto TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-    auto PlayerAimingComponent = PlayerTank->FindComponentByClass<UTankAimingComponent>();
 
     if (!ensure(TankAimingComponent)) { return; }
 
+    auto PlayerAimingComponent = PlayerTank->FindComponentByClass<UTankAimingComponent>();
 
-    if (!ensure(PlayerTank && AITank)) { return; }
+   
+    if (!ensure(PlayerAimingComponent)){ return; }
+    
 
     MoveToActor(PlayerTank, AproachAmount);
 
@@ -65,7 +70,6 @@ void ATankAIController::SetPawn(APawn* InPawn)
 
         AITank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnTankDeath);
             
-    
         }
 
     }
@@ -73,6 +77,6 @@ void ATankAIController::SetPawn(APawn* InPawn)
 void ATankAIController::OnTankDeath() 
     {
     
-    UE_LOG(LogTemp,Warning,TEXT("Delegating from AI."));
+    GetPawn()->DetachFromControllerPendingDestroy();
 
     }
