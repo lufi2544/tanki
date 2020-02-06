@@ -42,6 +42,8 @@ bool ATank::ApplyDamage(float DamageTaken)
 					{ 
 						Health-=DamageTaken;
 
+						UE_LOG(LogTemp,Error,TEXT("Damaged!!"));
+
 						if(Health <= 0 )
 							{
 								Dead = true;

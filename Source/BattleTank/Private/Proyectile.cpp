@@ -71,26 +71,17 @@ void AProyectile::FireProyectile( float Speed )
 	
 		{
 			
-		TSubclassOf<AMortar>MortarClass;
+
+		
 
 			LaunchBlast->Deactivate();
 			ImpactBlast->Activate();
-			
 			ExplosionForce->Activate();
-
-			if (OtherActor->GetClass() != MortarClass)
-			{
-				ExplosionForce->FireImpulse();
-				UE_LOG(LogTemp, Warning, TEXT("Comparing!!"));
-
-			}
-			
-			
 			SetRootComponent(ImpactBlast);
 			CollisionMesh->DestroyComponent();
 
 
-			UGameplayStatics::ApplyRadialDamage(
+			bool Damaged = UGameplayStatics::ApplyRadialDamage(
 				this,
 				BaseDamage,
 				this->GetActorLocation(),
@@ -98,7 +89,7 @@ void AProyectile::FireProyectile( float Speed )
 				UDamageType::StaticClass(),
 				TArray<AActor*>()
 			);
-
+			UE_LOG(LogTemp, Error, TEXT("%i"),Damaged);
 
 			FTimerHandle Timehandler;
 
